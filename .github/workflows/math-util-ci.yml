@@ -1,0 +1,24 @@
+name: Math Utility Repo applying CI    # Tên của nhóm công việc cần phải làm khi ai đó push code!
+
+on:
+  push:
+    branches: [ "main" ]  # Bất kì khi nào mà ai đó push code lên main
+  pull_request:
+    branches: [ "main" ]
+
+jobs:                     # Thì làm các việc dưới đây
+  build:
+
+    runs-on: ubuntu-latest        #1. Mượn 1 server của Mỹ, cài sẵn hệ điều hành Ubuntu
+
+    steps:                        #2. Làm thêm các bước sau trên server vừa mượn
+    - uses: actions/checkout@v3      #2.1 Lấy toàn bộ code từ kho chuyển sang server
+    - name: Set up JDK 20            #2.2 Mượn JDK nào đó trên server, 20
+      uses: actions/setup-java@v3
+      with:
+        java-version: '20'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven          #2.3 Chuẩn bị chạy Maven, chuẩn bị chạy lệnh đóng gói app, chạy luôn Unitest
+      run: mvn -B package --file pom.xml
+      
