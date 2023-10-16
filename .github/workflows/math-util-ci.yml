@@ -21,4 +21,11 @@ jobs:                     # Thì làm các việc dưới đây
         cache: maven
     - name: Build with Maven          #2.3 Chuẩn bị chạy Maven, chuẩn bị chạy lệnh đóng gói app, chạy luôn Unitest
       run: mvn -B package --file pom.xml
-      
+    - name: Distribute jar-war file # Gửi file .jar .war đi đâu, CD nhảy vào ...
+      run: mkdir staging && cp target/*.jar staging # tạo thư mục staging chứa file .jar .war sau khi build      
+     
+    - name: Make hyperlink to jar-war file # Tạo hyperlink để download build 
+      uses: actions/upload-artifact@v1
+      with:
+        name: HAY-DOWN-EM-JAR-O-DAY # Bản build .JAR/.WAR được nén ở link kế bên
+        path: staging
